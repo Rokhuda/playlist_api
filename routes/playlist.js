@@ -1,48 +1,17 @@
 const express = require("express");
-//const playlist = require("../playlist");
 const router = express.Router();
-const Musician = require('./models/playlist')
-
-// async function createPlaylist(req, res) {
-//     const musician = new Musician({
-
-//     })
-//     const result = await musician.save()
-//     console.log(result)
-// }
-
-// async function addMusicians() {
-//     const result = await Musician.find()
-//     console.log(result)
-// }
-
-// async function sortMusicians() {
-//     const result = await Musician.find()
-//         .sort('name')
-//     console.log(result)
-// }
-
-// async function updatePlaylist(id) {
-//     const musician = await Musician.findById(id)
-//     if (!musician) return;
-//     musician.name = ""
-//     musician.songs = []
-//     const result = await musician.save()
-//     console.log(result)
-// }
+const Musician = require('./models/musician')
 
 
-
-//add
-//post send user generated data to the data base
+// Adding a  new musician
 router.post('/', async(req, res) => {
     const musician = new Musician({
         name: req.body.name
     })
     try {
         const newMusician = await musician.save()
-            .then(() => res.redirect('/'));
-        //res.status(201).json(newArtist)
+        res.status(201).json(newMusician)
+            //.then(() => res.redirect('/'));
 
     } catch (error) {
         res.status(400).json({ message: err.message })
@@ -50,14 +19,7 @@ router.post('/', async(req, res) => {
 
 });
 
-//update, edit
-// router.put('/:id', async(req, res) => {
-//     const id = req.params.musicianId
-//     const newArtist = req.body
-//     musician.findOneAndUpdate({ _id: id }, { $set: newArtist })
-// })
-
-
+// Editing an existing musician
 router.patch('/:id', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
@@ -71,7 +33,7 @@ router.patch('/:id', getMusician, async(req, res) => {
     }
 })
 
-//delete
+// Deleting an existing musician 
 router.delete('/:id', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
@@ -84,21 +46,41 @@ router.delete('/:id', getMusician, async(req, res) => {
     }
 })
 
+// List all musicians in the playlist
+router.get('/', async(req, res) => {
+    try {
+        const musician = await Musician.find()
+        res.json(musician)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
 
+})
 
-// router.get('/', async(req, res) => {
-//     try {
-//         const musician = await Musician.findById(id)
-//             //res.json(musician)
-//         res.send(musician)
-//     } catch (error) {
-//         res.status(500).json({ message: err.message })
-//     }
+// Sorting musicains list alphabetically
+router.get('/', async(req, res) => {
+    try {
+        const musician = await Musician.find().sort('name')
+        res.json(musician)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
+    }
 
-// })
+})
 
-// //sort
-// router.get('/', (req, res) => {
-//     const sortMusicians = musician.sort('name')
-//     res.send(sortMusicians)
-// })
+// Middleware function for gettig musician object by ID
+async function getMusician(req, res, next) {
+    try {
+        musician = await Musician.findById(req.params.id)
+        if (musician == null) {
+            return res.status(404).json({ message: 'Cant find musician' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+
+    res.musician = musician
+    next()
+}
+
+module.exports = router
