@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="../routes/playlist.js"></script>
+    <title>My Playlist</title>
+</head>
+
+<body>
+    <div id="playlist-name" onclick="show()">Road Trip playlist</div>
+    <div id="musicians" class="grid"></div>
+    <div id="inputs" class="grid"></div>
+    <button id="sort" class=>Sort List</button>
+    <div id="inputs" class="grid">
+        <form action="/api/playlist/add" method="post">
+            <input type="text" id="addArtist" class="enter-artist" placeholder="(Add musician to playlist)" name="nameOfArtist" />
+            <button id="add" class="grid" type="submit">Add</button><br><br>
+        </form>
+        <form action="/api/playlist/:id" method="post">
+            <input type="text" id="edit-del" class="enter-artist" placeholder="(enter musician name)" name="nameOfArtist" />
+            <input type="text" class="artistID" placeholder="ID - musician you want to change" name="id" />
+            <button id="edit" type="submit" class="grid">Edit</button><br />
+            <br />
+        </form>
+        <form action="/api/playlist/delete:id" method="post">
+            <input type="text" class="artistID" id="delArtist" placeholder="ID - musician you want to delete" name="" />
+
+            <button id="delete" type="submit">Delete</button>
+        </form>
+    </div>
+    //
+    <script src="viewPlaylist.js"></script>
+</body>
+
+</html>
