@@ -4,7 +4,8 @@
     "description": " API which will allow you to create a Playlist of your favorite musicians and their songs",
     "main": "index.js",
     "scripts": {
-        "test": "npm start"
+        "test": "npm start",
+        "demon": "nodemon server.js"
     },
     "author": "Rokhuda Tshitimbi",
     "license": "ISC",

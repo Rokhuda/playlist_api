@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Musician = require('./models/musician')
+const Musician = require('../models/musician.js')
 
 
 // Adding a  new musician
