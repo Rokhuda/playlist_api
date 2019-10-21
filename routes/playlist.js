@@ -4,7 +4,7 @@ const Musician = require('../models/musician.js')
 
 
 // Adding a  new musician
-router.post('/', async(req, res) => {
+router.post('/add', async(req, res) => {
     const musician = new Musician({
         name: req.body.name
     })
@@ -14,13 +14,13 @@ router.post('/', async(req, res) => {
             //.then(() => res.redirect('/'));
 
     } catch (error) {
-        res.status(400).json({ message: err.message })
+        res.status(400).json({ message: error.message })
     }
 
 });
 
 // Editing an existing musician
-router.patch('/:id', getMusician, async(req, res) => {
+router.patch('/edit:id', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
 
@@ -34,7 +34,7 @@ router.patch('/:id', getMusician, async(req, res) => {
 })
 
 // Deleting an existing musician 
-router.delete('/:id', getMusician, async(req, res) => {
+router.delete('/delete:id', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
     }
@@ -47,18 +47,25 @@ router.delete('/:id', getMusician, async(req, res) => {
 })
 
 // List all musicians in the playlist
-router.get('/', async(req, res) => {
-    try {
-        const musician = await Musician.find()
-        res.json(musician)
-    } catch (error) {
-        res.status(500).json({ message: err.message })
+router.get('/all', async(req, res) => {
+    const artist = {
+        "name": [
+            "roxy", "rokhu", "roro", "rokhukhu"
+        ]
     }
+    res.json(artist)
+
+    // try {
+    //     const musician = await Musician.find()
+    //     res.json(musician)
+    // } catch (error) {
+    //     res.status(500).json({ message: err.message })
+    // }
 
 })
 
 // Sorting musicains list alphabetically
-router.get('/', async(req, res) => {
+router.get('/sort', async(req, res) => {
     try {
         const musician = await Musician.find().sort('name')
         res.json(musician)

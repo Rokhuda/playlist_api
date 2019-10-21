@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
-    <!-- <script src="../routes/playlist.js"></script> -->
     <title>My Playlist</title>
 </head>
 
@@ -14,25 +13,63 @@
     <div id="playlist-name">Road Trip playlist</div>
     <div id="musicians" class="grid"></div>
     <div id="inputs" class="grid"></div>
-    <button id="sort" class=>Sort List</button>
+    <button id="sort" class="grid" onclick="sortMusicians()">Sort List</button>
     <div id="inputs" class="grid">
-        <form action="/routes/playlist/" method="post">
+        <form>
             <input type="text" id="addMusician" class="enter-musician" placeholder="(Add musician to playlist)" name="nameOfmusician" />
-            <button id="add" class="grid" type="submit">Add</button><br><br>
+            <button id="add" class="grid" onclick="addMusician()">Add</button><br><br>
         </form>
-        <form action="/routes/playlist/:id" method="patch">
-            <input type="text" id="edit-del" class="enter-musician" placeholder="(enter musician name)" name="nameOfmusician" />
+        <form>
+            <input type="text" id="edit-delete" class="enter-musician" placeholder="(enter musician name)" name="nameOfmusician" />
             <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="id" />
-            <button id="edit" type="submit" class="grid">Edit</button><br />
+            <button id="edit" type="submit" class="grid" onclick="editMusician()">Edit</button><br />
             <br />
         </form>
-        <form action="/routes/playlist/:id" method="post">
+        <form>
             <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="" />
-            <button id="delete" type="submit">Delete</button>
+            <button id="delete" onclick="deleteMusician()">Delete</button>
         </form>
     </div>
 
-    <script src=""></script>
+    <script>
+        let baseUrl = "http://127.0.0.1:3090"
+
+        const getMusucisians = async() => {
+            const request = await fetch(`${baseUrl}/playlist/all`)
+            const response = await request.json()
+            document.getElementById("musicians").innerHTML = ""
+            for (let i = 0; i < response.name.length; i++) {
+                document.getElementById("musicians")
+                    .innerHTML += "<br>", response
+                    .name[i], "<br>"
+                console.log(response.name[i])
+            }
+        }
+        getMusucisians()
+
+
+        const addMusician = async() => {
+            const name = document.getElementById('addMusician').value
+            let data = {
+                name: document.getElementById('addMusician').value,
+            }
+            console.log(data)
+
+            const request = await fetch(`${baseUrl}/add`, {
+                method: 'POST',
+                header: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            const response = await request.json()
+            console.log(response.musicians)
+        }
+        addMusician()
+    </script>
+
 </body>
+
 
 </html>
