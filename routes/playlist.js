@@ -48,19 +48,12 @@ router.delete('/delete:id', getMusician, async(req, res) => {
 
 // List all musicians in the playlist
 router.get('/all', async(req, res) => {
-    const artist = {
-        "name": [
-            "roxy", "rokhu", "roro", "rokhukhu"
-        ]
+    try {
+        const musician = await Musician.find()
+        res.json(musician)
+    } catch (error) {
+        res.status(500).json({ message: err.message })
     }
-    res.json(artist)
-
-    // try {
-    //     const musician = await Musician.find()
-    //     res.json(musician)
-    // } catch (error) {
-    //     res.status(500).json({ message: err.message })
-    // }
 
 })
 

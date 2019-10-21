@@ -31,45 +31,8 @@
         </form>
     </div>
 
-    <script>
-        let baseUrl = "http://127.0.0.1:3090"
-
-        const getMusucisians = async() => {
-            const request = await fetch(`${baseUrl}/playlist/all`)
-            const response = await request.json()
-            document.getElementById("musicians").innerHTML = ""
-            for (let i = 0; i < response.name.length; i++) {
-                document.getElementById("musicians")
-                    .innerHTML += "<br>", response
-                    .name[i], "<br>"
-                console.log(response.name[i])
-            }
-        }
-        getMusucisians()
-
-
-        const addMusician = async() => {
-            const name = document.getElementById('addMusician').value
-            let data = {
-                name: document.getElementById('addMusician').value,
-            }
-            console.log(data)
-
-            const request = await fetch(`${baseUrl}/add`, {
-                method: 'POST',
-                header: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            const response = await request.json()
-            console.log(response.musicians)
-        }
-        addMusician()
-    </script>
+    <script src="/index.js"></script>
 
 </body>
-
 
 </html>
