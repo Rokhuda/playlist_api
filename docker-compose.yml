@@ -1,15 +1,17 @@
 version: '3'
 services:
   app:
-    container_name: playlist_api
+    container_name: playlistdb
     restart: always
-    build: .
+    build: ./
     ports:
       - '80:3090'
+    volumes:
+      - .:/app
     links:
-      - mongodb
+      - mongo
   mongo:
-    container_name: mongodb
-    image: mongodb
+    container_name: mongo
+    image: mongo
     ports:
       - '27017:27017'

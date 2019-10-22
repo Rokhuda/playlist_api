@@ -1,13 +1,15 @@
-FROM node:10
+FROM node:10 
 
-WORKDIR /usr/srs/app
+WORKDIR /app 
 
-COPY package *.json./
+COPY package.json package.json
 
-RUN npm install
+RUN npm install 
 
-COPY . .
+COPY . . 
 
-EXPOSE 3090
+EXPOSE 3000
 
-CMD ["npm", "start"]
+RUN npm install -g nodemon
+
+CMD [ "nodemon", "server.js" ] 
