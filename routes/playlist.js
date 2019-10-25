@@ -3,18 +3,19 @@ const router = express.Router();
 const Musician = require('../models/musician.js')
 
 
-// Adding a  new musician
+//Adding a  new musician
 router.post('/add', async(req, res) => {
     const musician = new Musician({
         name: req.body.name
     })
+    console.log(musician)
     try {
         const newMusician = await musician.save()
         res.status(201).json(newMusician)
-            //.then(() => res.redirect('/'));
 
     } catch (error) {
         res.status(400).json({ message: error.message })
+        console.log("somethngfg")
     }
 
 });
@@ -34,7 +35,7 @@ router.patch('/edit:id', getMusician, async(req, res) => {
 })
 
 // Deleting an existing musician 
-router.delete('/delete:id', getMusician, async(req, res) => {
+router.post('/delete:id', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
     }
@@ -48,10 +49,15 @@ router.delete('/delete:id', getMusician, async(req, res) => {
 
 // List all musicians in the playlist
 router.get('/all', async(req, res) => {
+    console.log('serve$$')
     try {
-        const musician = await Musician.find()
+        const musician = await Musician.find();
+        console.log("get$$$$", musician)
         res.json(musician)
     } catch (error) {
+        console.log('fail')
+            // console.log("error", musician)
+
         res.status(500).json({ message: err.message })
     }
 

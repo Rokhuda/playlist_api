@@ -11,27 +11,49 @@
 
 <body>
     <div id="playlist-name">Road Trip playlist</div>
+
     <div id="musicians" class="grid"></div>
-    <div id="inputs" class="grid"></div>
-    <button id="sort" onclick="sortMusicians()">Sort List</button>
+    <div id="inputs" class="grid" onload="list()"></div>
+    <button id="sort" onclick="sort()">Sort List</button>
+
     <div id="inputs" class="grid">
-        <form>
-            <input type="text" id="addMusician" class="enter-musician" placeholder="(Add musician to playlist)" name="nameOfmusician" />
-            <button id="add" class="grid" onclick="addMusician()">Add</button><br><br>
+        <form action="/playlist/add" method="post">
+            <input type="text" id="addMusician" class="enter-musician" placeholder="(Add musician to playlist)" name="name" />
+            <button id="add" class="grid">Add</button><br><br>
         </form>
-        <form>
-            <input type="text" id="edit-delete" class="enter-musician" placeholder="(enter musician name)" name="nameOfmusician" />
+
+        <form action="/playlist/edit:id" method="patch">
+            <input type="text" id="edit-delete" class="enter-musician" placeholder="(enter musician name)" name="name" />
             <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="id" />
-            <button id="edit" type="submit" class="grid" onclick="editMusician()">Edit</button><br />
-            <br />
+            <button id="edit" class="grid">Edit</button><br /><br />
         </form>
-        <form>
+
+        <form action="/playlist/delete:id" method="post">
             <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="" />
-            <button id="delete" onclick="deleteMusician()">Delete</button>
+            <button id="delete" class="grid">Delete</button>
         </form>
     </div>
 
-    <script src="index.js"></script>
+    <script>
+        const list = async() => {
+            const musicians = document.getElementById("musicians")
+            try {
+                const data = await fetch("http://localhost:3090/all", {
+                    method: "get"
+                })
+                const lists = await data.json()
+                lists.forEach(elem => {
+                    let musician = document.createElement("li")
+                    musician.textContent = elem.name;
+                    musicians.appendChild(musician)
+                    console.log(elem)
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        list()
+    </script>
 
 </body>
 
