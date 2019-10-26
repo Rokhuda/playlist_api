@@ -41,13 +41,13 @@
 // }
 // editMusician()
 
-// // Deleting an existing musician
+// Deleting an existing musician
 // const deleteMusician = async() => {
 //     let data = {
 //         name: document.getElementById('deleteMusician').value,
 //     }
-//     fetch("/playlist/delete:id" + id, {
-//         method: 'PATCH',
+//     fetch("/playlist/delete:id", {
+//         method: 'delete,
 //         body: JSON.stringify({
 //             data
 //         })

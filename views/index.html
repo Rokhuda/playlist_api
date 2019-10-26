@@ -22,13 +22,13 @@
             <button id="add" class="grid">Add</button><br><br>
         </form>
 
-        <form action="/playlist/edit:id" method="patch">
+        <form action="/playlist/edit" method="patch">
             <input type="text" id="edit-delete" class="enter-musician" placeholder="(enter musician name)" name="name" />
-            <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="id" />
+            <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="name" />
             <button id="edit" class="grid">Edit</button><br /><br />
         </form>
 
-        <form action="/playlist/delete:id" method="post">
+        <form action="/playlist/delete" method="post">
             <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="" />
             <button id="delete" class="grid">Delete</button>
         </form>

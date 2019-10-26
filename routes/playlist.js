@@ -15,27 +15,27 @@ router.post('/add', async(req, res) => {
 
     } catch (error) {
         res.status(400).json({ message: error.message })
-        console.log("somethngfg")
+
     }
 
 });
 
 // Editing an existing musician
-router.patch('/edit:id', getMusician, async(req, res) => {
+router.patch('/edit', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
 
     }
     try {
         const updatedMusician = await res.musician.save()
-        res.json(updatedMusician)
+        res.status(201).json(updatedMusician)
     } catch {
         res.status(400).json({ message: err.message })
     }
 })
 
 // Deleting an existing musician 
-router.post('/delete:id', getMusician, async(req, res) => {
+router.post('/delete', getMusician, async(req, res) => {
     if (req.body.name != null) {
         res.musician.name = req.body.name
     }
@@ -66,7 +66,7 @@ router.get('/all', async(req, res) => {
 // Sorting musicains list alphabetically
 router.get('/sort', async(req, res) => {
     try {
-        const musician = await Musician.find().sort('name')
+        const musician = await newMusician.find().sort('name')
         res.json(musician)
     } catch (error) {
         res.status(500).json({ message: err.message })
@@ -77,7 +77,7 @@ router.get('/sort', async(req, res) => {
 // Middleware function for gettig musician object by ID
 async function getMusician(req, res, next) {
     try {
-        musician = await Musician.findById(req.params.id)
+        musician = await Musician.findOneAndDelete(req.body.name)
         if (musician == null) {
             return res.status(404).json({ message: 'Cant find musician' })
         }
