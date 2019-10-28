@@ -29,12 +29,12 @@ app.use('/playlist', playlistRouter)
 app.get('/all', async(req, res) => {
     try {
         const musician = await Musician.find();
-        console.log(musician)
         res.json(musician)
-        res.send(json(musician))
+        //res.send(json(musician))
+        res.redirect("/")
     } catch (error) {
-        console.log('fail')
-        res.status(500).json({ message: error.message })
+        console.log(error)
+       
     }
 })
 

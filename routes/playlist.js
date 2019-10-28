@@ -11,11 +11,10 @@ router.post('/add', async(req, res) => {
     console.log(musician)
     try {
         const newMusician = await musician.save()
-        res.status(201).json(newMusician)
-
+        //res.status(201).json(newMusician)
+        res.redirect('/')
     } catch (error) {
-        res.status(400).json({ message: error.message })
-
+        res.status(400).json({ message: error.message })   
     }
 
 });
@@ -28,20 +27,24 @@ router.patch('/edit', getMusician, async(req, res) => {
     }
     try {
         const updatedMusician = await res.musician.save()
+       //
         res.status(201).json(updatedMusician)
-    } catch {
+        res.redirect('/')
+    } catch (err){
         res.status(400).json({ message: err.message })
     }
 })
 
 // Deleting an existing musician 
-router.post('/delete', getMusician, async(req, res) => {
+router.delete('/delete:id', getMusician, async(req, res) => {
+
     if (req.body.name != null) {
-        res.musician.name = req.body.name
+        res.musician.name = req.body.id
     }
     try {
-        await res.musician.remove()
+        await res.musician.remove({"_id": ObjectId(req.body.id)}, 1)
         res.json({ message: 'Deleted This musician' })
+        res.redirect('/')
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
@@ -49,15 +52,11 @@ router.post('/delete', getMusician, async(req, res) => {
 
 // List all musicians in the playlist
 router.get('/all', async(req, res) => {
-    console.log('serve$$')
     try {
         const musician = await Musician.find();
-        console.log("get$$$$", musician)
         res.json(musician)
-    } catch (error) {
-        console.log('fail')
-            // console.log("error", musician)
-
+        res.redirect('/')
+    } catch (error) {    
         res.status(500).json({ message: err.message })
     }
 
@@ -68,6 +67,7 @@ router.get('/sort', async(req, res) => {
     try {
         const musician = await newMusician.find().sort('name')
         res.json(musician)
+        res.redirect('/')
     } catch (error) {
         res.status(500).json({ message: err.message })
     }
@@ -77,7 +77,7 @@ router.get('/sort', async(req, res) => {
 // Middleware function for gettig musician object by ID
 async function getMusician(req, res, next) {
     try {
-        musician = await Musician.findOneAndDelete(req.body.name)
+        musician = await Musician.findOneAndDelete(req.body.id)
         if (musician == null) {
             return res.status(404).json({ message: 'Cant find musician' })
         }

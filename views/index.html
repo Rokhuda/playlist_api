@@ -28,7 +28,7 @@
             <button id="edit" class="grid">Edit</button><br /><br />
         </form>
 
-        <form action="/playlist/delete" method="post">
+        <form action="/playlist/delete:id" method="delete">
             <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="" />
             <button id="delete" class="grid">Delete</button>
         </form>
@@ -53,6 +53,7 @@
             }
         }
         list()
+
     </script>
 
 </body>
