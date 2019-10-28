@@ -28,8 +28,8 @@
             <button id="edit" class="grid">Edit</button><br /><br />
         </form>
 
-        <form action="/playlist/delete:id" method="delete">
-            <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="" />
+        <form action='/playlist/delete' method="post">
+            <input type="text" class="musicianID" id="deleteMusician" placeholder="ID - musician you want to delete" name="id" />
             <button id="delete" class="grid">Delete</button>
         </form>
     </div>
@@ -44,7 +44,8 @@
                 const lists = await data.json()
                 lists.forEach(elem => {
                     let musician = document.createElement("li")
-                    musician.textContent = elem.name;
+                    musician.textContent = `
+                    ${elem.name}  ${elem._id}`;
                     musicians.appendChild(musician)
                     console.log(elem)
                 })

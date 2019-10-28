@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Musician = require('../models/musician.js')
+const Musician = require('../models/musician.js');
+const MongoClient = require("mongodb");
+const url = 'mongodb://127.0.0.1:27017/playlistdb'
+
 
 
 //Adding a  new musician
@@ -8,7 +11,6 @@ router.post('/add', async(req, res) => {
     const musician = new Musician({
         name: req.body.name
     })
-    console.log(musician)
     try {
         const newMusician = await musician.save()
         //res.status(201).json(newMusician)
@@ -18,6 +20,25 @@ router.post('/add', async(req, res) => {
     }
 
 });
+
+// Deleting an existing musician 
+router.post('/delete', (req, res) => {
+    const id = req.body;
+    const objectId = require("mongodb").ObjectID
+    MongoClient.connect(url, {
+        useNewUrlParser: true
+    }, (err, db) => {
+        if (err) throw err;
+        var dbo = db.db("playlistdb");
+        dbo.collection("musicians").deleteOne({
+            "_id": objectId(id.id)
+        }, (err, result) => {
+            if (err) throw err;
+            db.close();
+            res.redirect('/')
+        });
+    });
+})
 
 // Editing an existing musician
 router.patch('/edit', getMusician, async(req, res) => {
@@ -35,20 +56,8 @@ router.patch('/edit', getMusician, async(req, res) => {
     }
 })
 
-// Deleting an existing musician 
-router.delete('/delete:id', getMusician, async(req, res) => {
 
-    if (req.body.name != null) {
-        res.musician.name = req.body.id
-    }
-    try {
-        await res.musician.remove({"_id": ObjectId(req.body.id)}, 1)
-        res.json({ message: 'Deleted This musician' })
-        res.redirect('/')
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
+
 
 // List all musicians in the playlist
 router.get('/all', async(req, res) => {
@@ -77,7 +86,7 @@ router.get('/sort', async(req, res) => {
 // Middleware function for gettig musician object by ID
 async function getMusician(req, res, next) {
     try {
-        musician = await Musician.findOneAndDelete(req.body.id)
+        musician = await Musician.find(req.body.id)
         if (musician == null) {
             return res.status(404).json({ message: 'Cant find musician' })
         }
