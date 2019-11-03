@@ -34,7 +34,7 @@ app.get('/all', async(req, res) => {
         res.redirect("/")
     } catch (error) {
         console.log('fail')
-       
+
     }
 })
 
