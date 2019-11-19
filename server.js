@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
-const favicon = require('serve-favicon')
-const Musician = require('./models/musician.js')
 
 const cors = require('cors')
 app.use(cors())
@@ -25,18 +23,6 @@ app.use(express.json())
 const playlistRouter = require("./routes/playlist")
 app.use('/playlist', playlistRouter)
 
-// List all musicians
-app.get('/all', async(req, res) => {
-    try {
-        const musician = await Musician.find();
-        res.json(musician)
-        res.send(json(musician))
-        res.redirect("/")
-    } catch (error) {
-        console.log('fail')
-
-    }
-})
 
 const port = 3090
 app.listen(port, () => console.log(`server connected ${port}`))

@@ -11,20 +11,20 @@
 
 <body>
     <div id="playlist-name">Road Trip playlist</div>
-
     <div id="musicians" class="grid"></div>
     <div id="inputs" class="grid" onload="list()"></div>
-    <button id="sort" onclick="sort()">Sort List</button>
+    <button id="sort" onclick="sortedList()">Sort List</button>
 
     <div id="inputs" class="grid">
+
         <form action="/playlist/add" method="post">
             <input type="text" id="addMusician" class="enter-musician" placeholder="(Add musician to playlist)" name="name" />
             <button id="add" class="grid">Add</button><br><br>
         </form>
 
-        <form action="/playlist/edit" method="patch">
+        <form action='/playlist/edit' method="post">
             <input type="text" id="edit-delete" class="enter-musician" placeholder="(enter musician name)" name="name" />
-            <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="name" />
+            <input type="text" class="musicianID" placeholder="ID - musician you want to change" name="id" />
             <button id="edit" class="grid">Edit</button><br /><br />
         </form>
 
@@ -34,28 +34,7 @@
         </form>
     </div>
 
-    <script>
-        const list = async() => {
-            const musicians = document.getElementById("musicians")
-            try {
-                const data = await fetch("http://localhost:3090/all", {
-                    method: "get"
-                })
-                const lists = await data.json()
-                lists.forEach(elem => {
-                    let musician = document.createElement("li")
-                    musician.textContent = `
-                    ${elem.name}  ${elem._id}`;
-                    musicians.appendChild(musician)
-                    console.log(elem)
-                })
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        list()
-
-    </script>
+    <script src="./index.js"></script>
 
 </body>
 
