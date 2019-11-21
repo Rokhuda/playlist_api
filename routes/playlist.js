@@ -9,7 +9,7 @@ const url = 'mongodb://127.0.0.1:27017/playlistdb'
 router.get('/all', async(req, res) => {
     try {
         const musician = await Musician.find();
-        res.json(musician)
+        res.status(200).json(musician)
         res.redirect("/")
     } catch (error) {
 
